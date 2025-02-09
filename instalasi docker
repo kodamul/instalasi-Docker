@@ -1,0 +1,103 @@
+Install Docker :
+=================
+# uninstall versi lama jika ada
+1. $ sudo apt remove docker docker-engine docker.io containerd runc		
+
+Set hostname
+=================
+$ sudo hostnamectl set-hostname devops-pyan
+
+Setting Waktu 
+==============
+timedatectl set-timezone Asia/Jakarta 
+
+2. $ sudo apt update
+
+3. $ sudo apt install apt-transport-https ca-certificates curl gnupg lsb-release
+
+4. $ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+
+5. $ echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+
+
+Install Docker Engine :
+========================
+1. $ sudo apt update
+2. $ sudo apt install docker-ce docker-ce-cli containerd.io
+3. $ sudo docker run hello-world	# untuk mencoba apakah docker sudah berjalan
+
+Setting Docker untuk non-root user :
+======================================
+1. $ sudo groupadd docker	        # jika belum ada
+2. $ sudo usermod -aG docker ($USER)	# ($USER) ganti dengan nama user yang akan dipakai untuk menjalankan docker
+3. $ newgrp docker		        # untuk mengaktifkan perubahan pada group
+4. $ docker run hello-world		# jalankan tanpa sudo, bila berjalan berarti sudah bisa
+
+
+	
+Menjalankan Docker dan membuat container :
+============================================
+
+menjalankan service
+# service docker start
+
+melihat daemon berjalan atau tidak
+# service docker status
+
+mematikan docker
+# service docker stop
+
+memeriksa docker client
+# docker info
+
+melihat image
+# docker images
+
+Melihat daftar Container
+# docker ps 
+# docker ps -a
+
+Mengaktifkan Container
+# docker start cd2b19f15d95   
+// (image bisa dilihat ketika menjalankan perintah # docker ps atau docker ps -a)
+
+Menghapus Container 
+# docker rm d2dd2e740eb3 /// (nama ID)
+
+Mendownload image dari website https://hub.docker.com
+======================================================
+1. Cari images dari software yang kita ingin di hub.docker.com, lalu jalankan perintah untuk menarik image-nya ke PC kita. 
+
+# misalkan / contoh:
+--------------------
+$ docker pull nextcloud atau 
+$ docker pull owncloud
+
+2. $ docker container create --name cloud1 -p 8080:80 nextcloud	
+
+# --name untuk memberi nama container baru, -p adalah port untuk mengakses (8080 untuk mengakses, 80 port untuk software berbasis web), nextcloud adalah nama image(dapat dilihat di $ docker images)
+
+3. $ docker container start cloud1		
+# cloud1 = nama container, dapat dilihat dengan $ docker container ls -all)
+
+4. Akses di web dengan mengetik localhost:8080 / dengan IP Server :192.168.4.?:8080
+
+
+
+Mencoba membuat container yang lain
+===================================
+Anda ingin membuat container dengan nama my_webapp1 , ketik perintah berikut ini:
+# docker run ­-i -­t --­­name my_webapp1 ubuntu /bin/bash
+
+Mengedit Container (masuk kedalam Container) / menginstall paket tambahan
+===============================================
+# docker exec -i -t cloud1 /bin/bash
+# apt update
+# apt intall apache2
+# /etc/init.d/apache2 start
+
+Keluar
+======
+exit
